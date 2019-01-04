@@ -41,8 +41,7 @@ public class LoginController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		
-		
+		if(request.getParameterMap().containsKey("logIn")) {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		
@@ -58,9 +57,8 @@ public class LoginController extends HttpServlet {
 			if(u.getNom_de_compte().equals(username) && u.getMot_de_pass().equals(password)){
 				HttpSession session = request.getSession();
 				isLogged = true;
-				session.setAttribute("id", u.getId());
+				session.setAttribute("UserId", u.getId());
 				session.setAttribute("isLogged", "true");
-				
 			}
 		}
 		if(isLogged){
@@ -70,6 +68,10 @@ public class LoginController extends HttpServlet {
 		request.setAttribute("error", "Username or password incorrect");
 		view = request.getRequestDispatcher("/login.jsp");  
 		view.forward(request, response);
+		}
+		}else if(request.getParameterMap().containsKey("logOut") && !request.getSession().equals(null)) {
+			request.getSession().invalidate();
+			response.sendRedirect("./login.jsp");
 		}
 	}
 
