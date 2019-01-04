@@ -26,11 +26,11 @@ public class MessageDAO {
 		   }
 		   return -1;
 	   }
-	   public ArrayList<Message> getMessage(int id_user){
+	   public ArrayList<Message> getMessage(int id_emetteur,int id_recepteur){
 		   ArrayList<Message> Messages = new ArrayList<Message>();
 	       try {
 	    	  Message msg;
-    	      ResultSet rs = sql.getResult("SELECT * FROM message WHERE id_recepteur="+ id_user);
+    	      ResultSet rs = sql.getResult("SELECT * FROM message WHERE id_emetteur="+ id_emetteur+" AND id_recepteur="+id_recepteur+" OR id_emetteur="+ id_recepteur+" AND id_recepteur="+id_emetteur);
     	      if(rs.equals(null)) return null;
     	      while(rs.next()){
     		          msg = new Message(rs.getInt("id"),
@@ -52,7 +52,6 @@ public class MessageDAO {
 		   try {
 			   if(generateId() == -1) return false;
 			   int newId = generateId();
-			   System.out.println(newId);
 			   DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			   Date date = new Date();
 			   String requete = "INSERT INTO message(id,text,dateCreation,id_emetteur,id_recepteur,statut)"
@@ -62,7 +61,6 @@ public class MessageDAO {
                                                                    + id_emetteur             +","
                                                                    + id_recepteur            +",'"
 					                                               + "pas encore"            +"')";
-			   System.out.println(requete);
 			   int rs = sql.execUpdate(requete);
 			   return rs != 0 ? true : false;
 		   } catch (Exception e) {
@@ -74,7 +72,6 @@ public class MessageDAO {
 	   public boolean SupprimerMessage(int messageId){
 		   try {
 			   String requete = "DELETE FROM message WHERE id="+ messageId;
-			   System.out.println(requete);
 			   int rs = sql.execUpdate(requete);
 			   return rs != 0 ? true : false;
 		   } catch (Exception e) {
