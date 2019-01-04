@@ -65,4 +65,11 @@ public class UtilisateurDAO {
 			           return null;
 		       }      
        }
+       public Utilisateur getUserById(int id){
+    	   ArrayList<Utilisateur> users = getUsers();
+    	   for(Utilisateur u : users){
+    		   if(u.getId() == id) return u;
+    	   }
+    	   return null;
+       }
 }
