@@ -68,7 +68,7 @@
 	border:1px solid black;
 }
 
-.cadreChat .rightCadre .bottomCadre .chatView{
+.cadreChat .rightCadre .bottomCadre #chatView{
 	width:550px;
 	height:450px;
 	border:1px solid black;
