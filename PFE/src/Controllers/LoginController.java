@@ -1,7 +1,6 @@
 package Controllers;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -26,53 +25,53 @@ public class LoginController extends HttpServlet {
      */
     public LoginController() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		//Connexion cn = Connexion.getInstance();
+		//System.out.println(cn.isConnected);
 		if(request.getParameterMap().containsKey("logIn")) {
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
+			String emailUtilisateur = request.getParameter("Email");
+			String passwordUtilisateur = request.getParameter("Password");
+			UtilisateurDAO userDAO = new UtilisateurDAO();
+			Utilisateur user = userDAO.getUserByEmail(emailUtilisateur);
+			
+				RequestDispatcher view;
+				
+				boolean isLogging = false;
 		
-		UtilisateurDAO userdao = new UtilisateurDAO();
-		ArrayList<Utilisateur> users = new ArrayList<Utilisateur>();
-		RequestDispatcher view;
-		boolean isLogged = false;
-		
-		
-		users = userdao.getUsers();
-		
-		for(Utilisateur u : users){
-			if(u.getNom_de_compte().equals(username) && u.getMot_de_pass().equals(password)){
-				HttpSession session = request.getSession();
-				isLogged = true;
-				session.setAttribute("UserId", u.getId());
-				session.setAttribute("isLogged", "true");
-			}
-		}
-		if(isLogged){
-			view = request.getRequestDispatcher("./login.jsp");      
-	        view.forward(request, response);
-		}else{
-		request.setAttribute("error", "Username or password incorrect");
-		view = request.getRequestDispatcher("/login.jsp");  
-		view.forward(request, response);
-		}
-		}else if(request.getParameterMap().containsKey("logOut") && !request.getSession().equals(null)) {
-			request.getSession().invalidate();
-			response.sendRedirect("./login.jsp");
+				if(user.getEmailUtilisateur().equals(emailUtilisateur) && user.getPasswordUtilisateur().equals(passwordUtilisateur)){
+						HttpSession session = request.getSession();
+						isLogging = true;
+						session.setAttribute("idUtilisateur", user.getIdUtilisateur());
+						session.setAttribute("isLogging", "true"); //Present Continuous : it means the user is logging or not
+						System.out.println(emailUtilisateur + " " + passwordUtilisateur);
+						System.out.println();
+						System.out.println(user);
+						
+				}
+				
+				if(isLogging){
+					view = request.getRequestDispatcher("./Message.jsp");      
+			        view.forward(request, response);
+				} else{
+					request.setAttribute("error", "Username or password incorrect");
+					view = request.getRequestDispatcher("./login.jsp");  
+					view.forward(request, response);
+				}
+		} else if(request.getParameterMap().containsKey("logOut") && !request.getSession().equals(null)) {
+				request.getSession().invalidate();
+				response.sendRedirect("./login.jsp");
 		}
 	}
-
 }

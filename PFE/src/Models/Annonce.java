@@ -1,44 +1,57 @@
 package Models;
 public class Annonce {
-
-	private Administrateur Utilisateur;
+	
+	//Attributes
+	private Administrateur Aministrateur;
 	private int idAnnonce;
-	private String text;
-	private int Statut;
+	private String textAnnonce;
+	private int statutAnnonce;
 	
-	
-	public Annonce(Administrateur utilisateur, int idAnnonce, String text,
-			int statut) {
-		
-		Utilisateur = utilisateur;
+	//Constructor
+	public Annonce(Administrateur aministrateur, int idAnnonce, String textAnnonce, int statutAnnonce) {
+		Aministrateur = aministrateur;
 		this.idAnnonce = idAnnonce;
-		this.text = text;
-		Statut = statut;
+		this.textAnnonce = textAnnonce;
+		this.statutAnnonce = statutAnnonce;
 	}
-	public Administrateur getUtilisateur() {
-		return Utilisateur;
+
+	//Getters & Setters
+	public Administrateur getAministrateur() {
+		return Aministrateur;
 	}
-	public void setUtilisateur(Administrateur utilisateur) {
-		Utilisateur = utilisateur;
+
+	public void setAministrateur(Administrateur aministrateur) {
+		Aministrateur = aministrateur;
 	}
+
 	public int getIdAnnonce() {
 		return idAnnonce;
 	}
+
 	public void setIdAnnonce(int idAnnonce) {
 		this.idAnnonce = idAnnonce;
 	}
-	public String getText() {
-		return text;
+
+	public String getTextAnnonce() {
+		return textAnnonce;
 	}
-	public void setText(String text) {
-		this.text = text;
+
+	public void setTextAnnonce(String textAnnonce) {
+		this.textAnnonce = textAnnonce;
 	}
-	public int getStatut() {
-		return Statut;
+
+	public int getStatutAnnonce() {
+		return statutAnnonce;
 	}
-	public void setStatut(int statut) {
-		Statut = statut;
+
+	public void setStatutAnnonce(int statutAnnonce) {
+		this.statutAnnonce = statutAnnonce;
 	}
 	
-	
+	//toString Function
+	@Override
+	public String toString() {
+		return "Annonce [Aministrateur=" + Aministrateur + ", idAnnonce=" + idAnnonce + ", textAnnonce=" + textAnnonce
+				+ ", statutAnnonce=" + statutAnnonce + "]";
+	}
 }

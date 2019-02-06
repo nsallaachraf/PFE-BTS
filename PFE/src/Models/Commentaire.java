@@ -3,51 +3,61 @@ package Models;
 import java.util.Date;
 
 public class Commentaire {
-
-	private int IdComm;
-	private String text;
-	private Date dateComm;
-	private int idPoste;
 	
-	public Commentaire(int idComm, String text, Date dateComm, int idPoste) {
-
-		IdComm = idComm;
-		this.text = text;
-		this.dateComm = dateComm;
+	//Attributes
+	private int idCommentaire;
+	private String textCommentaire;
+	private Date dateCommentaire;
+	private int idPoste;
+	private int idUtilisateur;
+	
+	//Constructor
+	public Commentaire(int idCommentaire, String textCommentaire, Date dateCommentaire, int idPoste, int idUtilisateur) {
+		this.idCommentaire = idCommentaire;
+		this.textCommentaire = textCommentaire;
+		this.dateCommentaire = dateCommentaire;
 		this.idPoste = idPoste;
+		this.setIdUtilisateur(idUtilisateur);
 	}
-
-	public int getIdComm() {
-		return IdComm;
+	
+	//Getter & Setters
+	public int getIdCommentaire() {
+		return idCommentaire;
 	}
-
-	public void setIdComm(int idComm) {
-		IdComm = idComm;
+	public void setIdCommentaire(int idCommentaire) {
+		this.idCommentaire = idCommentaire;
 	}
-
-	public String getText() {
-		return text;
+	public String getTextCommentaire() {
+		return textCommentaire;
 	}
-
-	public void setText(String text) {
-		this.text = text;
+	public void setTextCommentaire(String textCommentaire) {
+		this.textCommentaire = textCommentaire;
 	}
-
-	public Date getDateComm() {
-		return dateComm;
+	public Date getDateCommentaire() {
+		return dateCommentaire;
 	}
-
-	public void setDateComm(Date dateComm) {
-		this.dateComm = dateComm;
+	public void setDateCommentaire(Date dateCommentaire) {
+		this.dateCommentaire = dateCommentaire;
 	}
-
 	public int getIdPoste() {
 		return idPoste;
 	}
-
 	public void setIdPoste(int idPoste) {
 		this.idPoste = idPoste;
 	}
-    
-	
+
+	public int getIdUtilisateur() {
+		return idUtilisateur;
+	}
+
+	public void setIdUtilisateur(int idUtilisateur) {
+		this.idUtilisateur = idUtilisateur;
+	}
+
+	//toString Function
+	@Override
+	public String toString() {
+		return "Commentaire [idCommentaire=" + idCommentaire + ", textCommentaire=" + textCommentaire
+				+ ", dateCommentaire=" + dateCommentaire + ", idPoste=" + idPoste + "]";
+	}
 }

@@ -7,23 +7,18 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/chat.css">
 <title>Insert title here</title>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/ 
-libs/jquery/1.3.0/jquery.min.js"></script> 
-<script type="text/javascript"> 
-setInterval(function(){
-    $('#chatView').load('./chat.jsp');
-},1000);
-</script> 
+
 </head>
 <body>
    <%-- si l'utilisateur n'est pas connecter va fait un redirection vers page login.jsp --%>
    <% 
-   if(session == null || session.getAttribute("isLogged") == null){
-	   response.sendRedirect("./login.jsp");
-	   return;
-   }
+//    if(session == null || session.getAttribute("isLogging") == null){
+// 	   response.sendRedirect("./login.jsp");
+// 	   return;
+//    }
    %>
    <div class="cadreChat">
        <div class="leftCadre">
@@ -41,18 +36,18 @@ setInterval(function(){
                    ArrayList<Utilisateur> users = udao.getUsers();
                    Utilisateur user = null;
                    
-                   int userId = (Integer)session.getAttribute("UserId");
-                   int id_recepteur = -1;
+                   int idUtilisateur = (Integer)session.getAttribute("idUtilisateur");
+                   int idRecepteur = -1;
                    if(request.getParameterMap().containsKey("id"))
                    {
-                   id_recepteur = Integer.parseInt(request.getParameter("id"));
+                	   idRecepteur = Integer.parseInt(request.getParameter("id"));
                    }
                    
                    for(Utilisateur u : users){
-                	   if(u.getId() != userId){
-                	   out.write("<div class='friendCadre'>");
-                	   out.write("<li><a href='chat.jsp?id="+u.getId()+"'>"+u.getNom()+" "+u.getPrenom()+"</a>");
-                	   out.write("</div>");
+                	   if(u.getIdUtilisateur() != idUtilisateur){
+                	   		out.write("<div class='friendCadre'>");
+                	   		out.write("<li><a href='chat.jsp?id="+u.getIdUtilisateur()+"'>"+u.getNomUtilisateur()+" "+u.getPrenomUtilisateur()+"</a>");
+                	   		out.write("</div>");
                 	   }
                    }
                    %>
@@ -60,34 +55,38 @@ setInterval(function(){
        </div>
        <div class="rightCadre">
             <div class="topCadre">
-                 <h2><%
+                 <h2>
+                 <%
                       if(request.getParameterMap().containsKey("id"))
                       {
                     	  try{
-                    	  int user2 = id_recepteur;
-
-                    	  for(Utilisateur u : users){
-                    		  if(u.getId() == user2) out.write(u.getNom() + " " + u.getPrenom());
-                    	  }
-                    	  }catch(Exception e){ out.write("NULL"); }
+	                    	  int idUtilisateur2 = idRecepteur;
+	                    	  for(Utilisateur u : users){
+	                    		  if(u.getIdUtilisateur() == idUtilisateur2) 
+	                    			  out.write(u.getNomUtilisateur() + " " + u.getPrenomUtilisateur());
+	                    	  }
+                    	  } catch(Exception e){
+                    		  out.write("NULL"); 
+							}
          		      }
-                 %></h2>
+                 %>
+                 </h2>
             </div>
             <div class="bottomCadre">
                   <div id="chatView">
                      <%
-                            ArrayList<Message> messages = mdao.getMessage(userId, id_recepteur);
+                            ArrayList<Message> messages = mdao.getMessagesById(idUtilisateur, idRecepteur);
                             if(messages != null){
                             for(Message m : messages){
-                            	out.write("<p>"+ udao.getUserById(m.getId_emetteur()).getNom() +": "+m.getText()+"</p>");
-                            }
+                            		out.write("<p>"+ udao.getUserById(m.getIdEmetteur()).getNomUtilisateur() +": "+ m.getTextMessage() +"</p>");
+                            	}
                             }
                      %>
                   </div>
                   <div class="msgTools">
                       <form method="POST" action="#">
                            <input type="text" name="msgBox">
-                           <input type="submit" name="sendMsg" value="send">
+                           <input type="submit" id="submit" name="sendMsg" value="send">
                       </form>
                       <form method="POST" action="Login">
                          <input type="submit" name="logOut" value="log out">
@@ -95,11 +94,12 @@ setInterval(function(){
                       <%
                       if(request.getParameterMap().containsKey("sendMsg")) {
                     	  try{
-                    		  String msg = (String)request.getParameter("msgBox");
-                    		  int id_emetteur = userId;
+                    		  String txtMessage = (String)request.getParameter("msgBox");
+                    		  int idEmetteur = idUtilisateur;
 
-                    		  if(!msg.equals("") && userId != 0){
-                    			  mdao.AddMessage(msg, id_emetteur, id_recepteur);
+                    		  if(!txtMessage.equals("") && idUtilisateur != 0){
+                    			  Message message = new Message(txtMessage, idEmetteur, idRecepteur, "Confirm");
+                    			  mdao.insertMessage(message);
                     		  }
                     		  response.setIntHeader("Refresh",1);
                     	  }catch(Exception e){
@@ -111,5 +111,12 @@ setInterval(function(){
             </div>
        </div>
    </div>
+   
+   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.0/jquery.min.js"></script> 
+	<script type="text/javascript"> 
+	$("#submit").click(function(){
+		//$("html").load(location.href + "#chatView");
+	});
+	</script> 
 </body>
 </html>

@@ -1,26 +1,47 @@
 package Models;
 public class Classe {
 
-	private String Filliere;
-	private String Id_Classe;
+	//Attributes
+	private int idClasse;
+	private String nomClasse;
+	private String anneeClasse;
 	
-	public Classe(String filliere, String id_Classe) {
-		Filliere = filliere;
-		Id_Classe = id_Classe;
-	}
-	
-	public String getFilliere() {
-		return Filliere;
-	}
-	public void setFilliere(String filliere) {
-		Filliere = filliere;
-	}
-	public String getId_Classe() {
-		return Id_Classe;
-	}
-	public void setId_Classe(String id_Classe) {
-		Id_Classe = id_Classe;
+	//Constructor
+	public Classe(int idClasse, String nomClasse, String anneeClasse) {
+		super();
+		this.idClasse = idClasse;
+		this.nomClasse = nomClasse;
+		this.anneeClasse = anneeClasse;
 	}
 	
-	
+	//Getter & Setters
+	public String getAnneeClasse() {
+		return anneeClasse;
+	}
+
+	public void setAnneeClasse(String anneeClasse) {
+		this.anneeClasse = anneeClasse;
+	}
+
+	public int getIdClasse() {
+		return idClasse;
+	}
+
+	public void setIdClasse(int idClasse) {
+		this.idClasse = idClasse;
+	}
+
+	public String getNomClasse() {
+		return nomClasse;
+	}
+
+	public void setNomClasse(String nomClasse) {
+		this.nomClasse = nomClasse;
+	}
+
+	//toString Function
+	@Override
+	public String toString() {
+		return "Classe [idClasse=" + idClasse + ", nomClasse=" + nomClasse + "]";
+	}
 }

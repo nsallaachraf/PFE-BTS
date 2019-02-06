@@ -3,73 +3,118 @@ import java.sql.*;
 import java.util.ArrayList;
 
 import Models.Utilisateur;
-import tools.mysql;
+import ConnectionDB.*;
 
 public class UtilisateurDAO {
-	   private mysql sql;
-	   public UtilisateurDAO(){
-		     sql  = mysql.getInstance();
-	   }
-	   public int generateId(){
-		   try {
-			  ResultSet rs = sql.getResult("SELECT max(id) as newId FROM Utilisateur");
-			  while(rs.next())
-			  {
-			       return rs.getInt("newId") > 0 ? rs.getInt("newId")+1 : 1;
-			  }
-		   } catch (Exception e) {
-			  e.printStackTrace();
-		   }
-		   return -1;
-	   }
-	   public boolean CreateUser(Utilisateur user){
-		   try {
-			   if(generateId() == -1) return false;
-			   int newId = generateId();
-			   String requete = "INSERT INTO Utilisateur(id,nom_de_compte,mot_de_pass,email,nom,prenom,role)"
-			   		                                  +"VALUES('"+ newId                  +",'"
-					                                             + user.getNom_de_compte()+"','"
-                                                                 + user.getMot_de_pass()  +"','"
-					                                             + user.getEmail()        +"','"
-					                                             + user.getNom()          +"','"
-					                                             + user.getPrenom()       +"',"
-					                                             + user.getRole()         +")";
-			   System.out.println(requete);
-			   int rs = sql.execUpdate(requete);
-			   return rs != 0 ? true : false;
-		   } catch (Exception e) {
-			   e.printStackTrace();
-			   return false;
-		   }
-	   }
-       public ArrayList<Utilisateur> getUsers(){
-    	       ArrayList<Utilisateur> users = new ArrayList<Utilisateur>();
-    	       try {
-        	      Utilisateur user;
-        	      ResultSet rs = sql.getResult("SELECT * from Utilisateur");
-        	      if(rs.equals(null)) return null;
-        	      while(rs.next()){
-        		          user = new Utilisateur(rs.getInt("id"),
-        				                  rs.getString("nom_de_compte"),
-        				                  rs.getString("mot_de_pass"),
-        				                  rs.getString("email"),
-        				                  rs.getString("prenom"),
-        				                  rs.getString("nom"),
-        				                  rs.getInt("role"));
-        		          users.add(user);
-        	      }
-        	      return users;
-        	   
-		       } catch (Exception e) {
-			           e.printStackTrace();
-			           return null;
-		       }      
-       }
-       public Utilisateur getUserById(int id){
-    	   ArrayList<Utilisateur> users = getUsers();
-    	   for(Utilisateur u : users){
-    		   if(u.getId() == id) return u;
-    	   }
-    	   return null;
-       }
+
+	//Declare a variable of Connection
+	private Connexion connection;
+
+	//Constructor of UtilisateurDAO to initialize the variable connection
+	public UtilisateurDAO() {
+		connection = Connexion.getInstance();
+	}
+
+	//This function to get the maximum id and incrementing by 1
+	public int generateId() {
+		try {
+			ResultSet rs = connection.getResult("SELECT MAX(IDUtilisateur) AS newId FROM Utilisateur");
+			while (rs.next()) {
+				//Inline if statement between ? and : is a true value and after : is a false value				
+				return rs.getInt("newId") > 0 ? rs.getInt("newId") + 1 : 1;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		//If there's an exception return -1 
+		return -1;
+	}
+
+	//This function to insert an user in DataBase 
+	public boolean InsertUser(Utilisateur User) {
+		try {
+			int newId = generateId(); //Calling the function in line 18
+			//If there's an exception like i said before look at the line 28 it'll return false
+			if (newId == -1)
+				return false;
+			//Create a request to insert into user (Utilisateur) table
+			String requete = "INSERT INTO `Utilisateur``Utilisateur`(`idUtilisateur`, `nomUtilisateur`, `prenomUtilisateur`, `emailUtilisateur`, `passwordUtilisateur`, `cneUtilisateur`, `roleUtilisateur`, `idClasse`)" +
+				"VALUES (" + User.getIdUtilisateur() + ",'" + User.getNomUtilisateur() + "','" + User.getPrenomUtilisateur() + "','" +
+				User.getEmailUtilisateur() + "','" + User.getPasswordUtilisateur() + "','" + User.getCneUtilisateur() + "','" + User.getRoleUtilisateur() + "'," + User.getIdClasse() + ")";
+			//End of Request
+			int rs = connection.execUpdate(requete);
+			//Inline if statement between ? and : is a true value and after : is a false value				
+			return rs != 0 ? true : false;
+		} catch (Exception e) {
+			e.printStackTrace();
+			//If there's an exception return false
+			return false;
+		}
+	}
+
+	//This function to get all users from database 
+	public ArrayList<Utilisateur> getUsers(int idUtilisateur) {
+		ArrayList<Utilisateur> Users = new ArrayList<Utilisateur>();
+		try {
+			Utilisateur User;
+			ResultSet rs = connection.getResult("SELECT * FROM Utilisateur WHERE idUtilisateur IN (SELECT IF(idEmetteur = "+ idUtilisateur +" , idRecepteur, idEmetteur) AS id FROM Amis A WHERE A.idEmetteur = "+ idUtilisateur +" OR A.idRecepteur = "+ idUtilisateur +" AND A.statutAmis = 'Confirm');");
+			//If Table is empty in this case it'll return null
+			if (rs.equals(null)) 
+				return null;
+			//while to jump row to another
+			while (rs.next()) {
+				User = new Utilisateur(rs.getInt("idUtilisateur"), rs.getString("nomUtilisateur"), rs.getString("prenomUtilisateur"),
+				rs.getString("emailUtilisateur"), rs.getString("passwordUtilisateur"), rs.getString("cneUtilisateur"), 
+				rs.getString("roleUtilisateur"), rs.getInt("idClasse"));
+				Users.add(User);
+			}
+			return Users;
+		} catch (Exception e) {
+			e.printStackTrace();
+			//If there's an exception return false
+			return null;
+		}
+	}
+
+	//This function to get one user from database 
+	public Utilisateur getUserById(int idUtilisateur) {
+		try {
+			Utilisateur User = null;
+			ResultSet rs = connection.getResult("SELECT * FROM Utilisateur WHERE idUtilisateur="+ idUtilisateur);
+			//If Table is empty in this case it'll return null
+			if (rs.equals(null)) 
+				return null;
+			while (rs.next()) {
+				User = new Utilisateur(rs.getInt("idUtilisateur"), rs.getString("nomUtilisateur"), rs.getString("prenomUtilisateur"),
+				rs.getString("emailUtilisateur"), rs.getString("passwordUtilisateur"), rs.getString("cneUtilisateur"), 
+				rs.getString("roleUtilisateur"), rs.getInt("idClasse"));
+			}
+			return User;
+		} catch (Exception e) {
+			e.printStackTrace();
+			//If there's an exception return false
+			return null;
+		}
+	}
+
+	//This function to get one user from database by email and it will return Utilisateur
+	public Utilisateur getUserByEmail(String emailUtilisateur) {
+		try {
+			Utilisateur User = null;
+			ResultSet rs = connection.getResult("SELECT * FROM Utilisateur WHERE emailUtilisateur='"+ emailUtilisateur +"'");
+			//If Table is empty in this case it'll return null
+			if (rs.equals(null)) 
+				return null;
+			while (rs.next()) {
+				User = new Utilisateur(rs.getInt("idUtilisateur"), rs.getString("nomUtilisateur"), rs.getString("prenomUtilisateur"),
+				rs.getString("emailUtilisateur"), rs.getString("passwordUtilisateur"), rs.getString("cneUtilisateur"), 
+				rs.getString("roleUtilisateur"), rs.getInt("idClasse"));
+			}
+			return User;
+		} catch (Exception e) {
+			e.printStackTrace();
+			//If there's an exception return false
+			return null;
+		}
+	}
 }

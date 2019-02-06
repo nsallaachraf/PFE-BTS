@@ -1,88 +1,100 @@
 package Models;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class Message {
 	
-    private int id;
-	private String text;
-	private Date DateCreation;
-	private int id_emetteur;
-	private int id_recepteur;
-	private String statut;
+	//Attributes
+    private int idMessage;
+	private String textMessage;
+	private Date dateMessage;
+	private int idEmetteur; //Supposed that idUtilisateur 1 is idEmetteur 
+	private int idRecepteur; //Supposed that idUtilisateur 2 is idRecepteur 
+	private String statutMessage;
 	
-	public Message(int id, String text, Date dateCreation,int id_emetteur, int id_recepteur, String statut) {
-
-		this.id = id;
-		this.text = text;
-		DateCreation = dateCreation;
-		this.statut = statut;
-		this.id_emetteur = id_emetteur;
-		this.id_recepteur = id_recepteur;
+	//Constructor
+	public Message(int idMessage, Date dateMessage, String textMessage,  int idEmetteur, int idRecepteur, String statutMessage) {
+		this.idMessage = idMessage;
+		this.dateMessage = dateMessage;
+		this.textMessage = textMessage;
+		this.idEmetteur = idEmetteur;
+		this.idRecepteur = idRecepteur;
+		this.statutMessage = statutMessage;
 	}
 
-	public int getId() {
-		return id;
+	//Constructor
+	public Message(String textMessage, int idEmetteur, int idRecepteur, String statutMessage) {
+		this.textMessage = textMessage;
+		this.idEmetteur = idEmetteur;
+		this.idRecepteur = idRecepteur;
+		this.statutMessage = statutMessage;
 	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public int getId_emetteur() {
-		return id_emetteur;
-	}
-
-	public void setId_emetteur(int id_emetteur) {
-		this.id_emetteur = id_emetteur;
-	}
-
-	public int getId_recepteur() {
-		return id_recepteur;
-	}
-
-	public void setId_recepteur(int id_recepteur) {
-		this.id_recepteur = id_recepteur;
-	}
-
+	
+	//Getters & Setters
 	public int getIdMessage() {
-		return id;
+		return idMessage;
 	}
 
 	public void setIdMessage(int idMessage) {
-		id = idMessage;
+		this.idMessage = idMessage;
 	}
 
-	public String getText() {
-		return text;
+	public String getTextMessage() {
+		return textMessage;
 	}
 
-	public void setText(String text) {
-		this.text = text;
+	public void setTextMessage(String textMessage) {
+		this.textMessage = textMessage;
 	}
 
-	public Date getDateCreation() {
-		return DateCreation;
+	public Date getDateMessage() {
+		return dateMessage;
 	}
 
-	public void setDateCreation(Date dateCreation) {
-		DateCreation = dateCreation;
+	public void setDateMessage(Date dateMessage) {
+		this.dateMessage = dateMessage;
 	}
 
-	public String getStatut() {
-		return statut;
+	public int getIdEmetteur() {
+		return idEmetteur;
 	}
 
-	public void setStatut(String statut) {
-		statut = statut;
+	public void setIdEmetteur(int idEmetteur) {
+		this.idEmetteur = idEmetteur;
 	}
 
+	public int getIdRecepteur() {
+		return idRecepteur;
+	}
+
+	public void setIdRecepteur(int idRecepteur) {
+		this.idRecepteur = idRecepteur;
+	}
+
+	public String getStatutMessage() {
+		return statutMessage;
+	}
+
+	public void setStatutMessage(String statutMessage) {
+		this.statutMessage = statutMessage;
+	}
+	
+	public String getDateMessageFormat() {
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		LocalDateTime now = LocalDateTime.now();
+		return dtf.format(now);
+	}
+
+	//toString Function
 	@Override
 	public String toString() {
-		return "Message [id=" + id + ", text=" + text + ", DateCreation="
-				+ DateCreation + ", id_emetteur=" + id_emetteur
-				+ ", id_recepteur=" + id_recepteur + ", statut=" + statut + "]";
+		return "Message [idMessage=" + idMessage + ", textMessage=" + textMessage + ", DateMessage=" + dateMessage
+				+ ", idEmetteur=" + idEmetteur + ", idRecepteur=" + idRecepteur + ", statutMessage=" + statutMessage
+				+ "]";
 	}
+	
 	
 	
 }

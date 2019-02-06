@@ -1,86 +1,101 @@
 @CHARSET "ISO-8859-1";
-*{
-	margin:0px;
-	padding:0px;
-}
-.cadreChat{
-	width:800px;
-	height:600px;
-	margin:auto;
-}
-.cadreChat .leftCadre{
-	width:200px;
-	height:600px;
-	float:left;
-	border:1px solid black;
-}
-.cadreChat .leftCadre .topCadre{
-	border-bottom:1px solid black;
-	padding:10px 0 10px 0;
-	
-}
-.cadreChat .leftCadre .topCadre input[type=text]{
-	width:100px;
-	margin-left:20px;
-}
-.cadreChat .leftCadre .bottomCadre h3{
-	text-align:center;
-	border-bottom:1px solid black;
-	margin-bottom:25px;
-}
-.cadreChat .leftCadre .bottomCadre li{
-	list-style-type:none;
-	width:80%;
-	height:60px;
-	margin:auto;
-	border:1px solid black;
-	text-align:center;
-	margin-bottom:15px;
-}
-.cadreChat .leftCadre .bottomCadre li a{
-	text-decoration:none;
-	line-height:60px;
-	color:red;
-}
-.cadreChat .rightCadre{
-	width:580px;
-	height:600px;
-	border:1px solid black;
-	float:left;
-}
-.cadreChat .rightCadre .topCadre{
-	width:550px;
-	height:40px;
-	margin:auto;
-	display:block;
-	margin-top:20px;
-	margin-bottom:10px;
-	border:1px solid black;
-}
-.cadreChat .rightCadre .topCadre h2{
-	text-align:center;
-	line-height:40px;
-}
-.cadreChat .rightCadre .bottomCadre{
-	width:550px;
-	height:500px;
-	margin:auto;
-	border:1px solid black;
+
+* {
+	margin: 0px;
+	padding: 0px;
 }
 
-.cadreChat .rightCadre .bottomCadre #chatView{
-	width:550px;
-	height:450px;
-	border:1px solid black;
+.cadreChat {
+	width: 800px;
+	height: 600px;
+	margin: auto;
 }
-.cadreChat .rightCadre .bottomCadre .msgTools{
-	padding:2px 10px 2px 10px;
+
+.cadreChat .leftCadre {
+	width: 200px;
+	height: 600px;
+	float: left;
+	border: 1px solid black;
 }
-.cadreChat .rightCadre .bottomCadre .msgTools input[type=text]{
-	width:470px;
-	height:40px;
+
+.cadreChat .leftCadre .topCadre {
+	border-bottom: 1px solid black;
+	padding: 10px 0 10px 0;
+
 }
-.cadreChat .rightCadre .bottomCadre .msgTools input[type=submit]{
-	width:50px;
-	height:40px;
+
+.cadreChat .leftCadre .topCadre input[type=text] {
+	width: 100px;
+	margin-left: 20px;
+}
+
+.cadreChat .leftCadre .bottomCadre h3 {
+	text-align: center;
+	border-bottom: 1px solid black;
+	margin-bottom: 25px;
+}
+
+.cadreChat .leftCadre .bottomCadre li {
+	list-style-type: none;
+	width: 80%;
+	height: 60px;
+	margin: auto;
+	border: 1px solid black;
+	text-align: center;
+	margin-bottom: 15px;
+}
+
+.cadreChat .leftCadre .bottomCadre li a {
+	text-decoration: none;
+	line-height: 60px;
+	color: red;
+}
+
+.cadreChat .rightCadre {
+	width: 580px;
+	height: 600px;
+	border: 1px solid black;
+	float: left;
+}
+
+.cadreChat .rightCadre .topCadre {
+	width: 550px;
+	height: 40px;
+	margin: auto;
+	display: block;
+	margin-top: 20px;
+	margin-bottom: 10px;
+	border: 1px solid black;
+}
+
+.cadreChat .rightCadre .topCadre h2 {
+	text-align: center;
+	line-height: 40px;
+}
+
+.cadreChat .rightCadre .bottomCadre {
+	width: 550px;
+	height: 500px;
+	margin: auto;
+	border: 1px solid black;
+}
+
+.cadreChat .rightCadre .bottomCadre #chatView {
+	width: 550px;
+	height: 450px;
+	border: 1px solid black;
+}
+
+.cadreChat .rightCadre .bottomCadre .msgTools {
+	padding: 2px 10px 2px 10px;
+}
+
+.cadreChat .rightCadre .bottomCadre .msgTools input[type=text] {
+	width: 470px;
+	height: 40px;
+}
+
+.cadreChat .rightCadre .bottomCadre .msgTools input[type=submit] {
+	width: 50px;
+	height: 40px;
 }
